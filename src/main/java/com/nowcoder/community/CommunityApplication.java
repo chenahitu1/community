@@ -2,6 +2,8 @@ package com.nowcoder.community;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import javax.annotation.PostConstruct;
 /*MVC
 * 三层架构  表现层、业务层、数据访问层
 * 表现层里面 分为模型层Model  View视图层 Controller 控制层 称为MVC
@@ -23,6 +25,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //该类本身就是一个配置类
 public class CommunityApplication {
 
+
+    @PostConstruct
+    public void init(){
+        //解决netty自动冲突问题
+        //see netty4Utils.setAvailableProcessors()
+        System.setProperty("es.set.netty.runtime.available.processors","false");
+    }
     public static void main(String[] args) {
         //CommunityApplication就是一个配置文件
         SpringApplication.run(CommunityApplication.class, args);

@@ -1,8 +1,12 @@
 package com.nowcoder.community;
 
 import com.nowcoder.community.dao.DiscussPostMapper;
+import com.nowcoder.community.dao.LoginTicketMapper;
+import com.nowcoder.community.dao.MessageMapper;
 import com.nowcoder.community.dao.UserMapper;
 import com.nowcoder.community.enity.DiscussPost;
+import com.nowcoder.community.enity.LoginTicket;
+import com.nowcoder.community.enity.Message;
 import com.nowcoder.community.enity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,30 @@ import java.util.List;
 public class MapperTests {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MessageMapper messageMapper;
+    @Test
+    public void testSelectLetters(){
+        List<Message> list=messageMapper.selectConversations(111,0,20);
+        for(Message message :list){
+            System.out.println(message);
+        }
+
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        messageMapper.selectLetters("111_112",0,10);
+        for(Message message : list){
+            System.out.println(message);
+        }
+
+        count=messageMapper.selectLetterCount("111_112");
+        System.out.println(count);
+
+        count=messageMapper.selectLetterUnreadCount(131,"111_131");
+        System.out.println(count);
+
+    }
 
     @Test
     public void testSelectUser(){
@@ -67,5 +95,46 @@ public class MapperTests {
         }
         int discussPostRows = discussPostMapper.selectDiscussPostRows(101);
         System.out.println(discussPostRows);
+
+    }
+    @Test
+    public void testInsertPosts(){
+        DiscussPost discussPost=new DiscussPost();
+        discussPost.setUserId(800);
+        discussPost.setStatus(0);
+        discussPost.setCreateTime(new Date());
+        discussPost.setType(1);
+        discussPost.setContent("asda");
+        discussPost.setCommentCount(5);
+        discussPost.setTitle("asda");
+        discussPost.setScore(95);
+        discussPostMapper.insertDiscussPost(discussPost);
+
+    }
+
+    @Autowired
+    LoginTicketMapper loginTicketMapper;
+    @Test
+    public void testInsertLoginTicket(){
+        LoginTicket loginTicket=new LoginTicket();
+        loginTicket.setUserId(101);
+        loginTicket.setTicket("abc");
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis()+1000*60*10));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+
+
+
+    }
+    @Test
+    public void testSelectLoginTicket(){
+        LoginTicket loginTicket = loginTicketMapper.selectByTicket("abc");
+        System.out.println(loginTicket);
+    }
+    @Test
+    public void testUpdateLoginTicket(){
+        loginTicketMapper.updateStatus("abc", 1);
+        LoginTicket loginTicket = loginTicketMapper.selectByTicket("abc");
+        System.out.println(loginTicket);
     }
 }
