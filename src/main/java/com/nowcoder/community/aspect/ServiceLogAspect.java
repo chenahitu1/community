@@ -18,8 +18,8 @@ import java.util.logging.SimpleFormatter;
 /**
  * 目的：实现每次调用service方法是在执行方法之前提示某用户在什么时候调用了什么方法
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class ServiceLogAspect {
     private static final Logger logger= LoggerFactory.getLogger(ServiceLogAspect.class);
 

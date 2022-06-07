@@ -8,16 +8,19 @@ import com.nowcoder.community.enity.DiscussPost;
 import com.nowcoder.community.enity.LoginTicket;
 import com.nowcoder.community.enity.Message;
 import com.nowcoder.community.enity.User;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = CommunityApplication.class)
 public class MapperTests {
@@ -88,7 +91,7 @@ public class MapperTests {
     //每次写完mapper.xml文件时测试一下有没有写错 因为那边的出错率比较高
     @Test
     public void testSelectPosts(){
-        List<DiscussPost> discussPostList = discussPostMapper.selectDiscussPosts(101, 0, 10);
+        List<DiscussPost> discussPostList = discussPostMapper.selectDiscussPosts(101, 0, 10,0);
         Iterator<DiscussPost> iterator = discussPostList.iterator();
         while(iterator.hasNext()){
             System.out.println(iterator.next());

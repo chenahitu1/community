@@ -6,8 +6,12 @@ import com.nowcoder.community.dao.UserMapper;
 import com.nowcoder.community.enity.DiscussPost;
 import com.nowcoder.community.enity.User;
 import com.nowcoder.community.util.CommunityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -27,6 +31,8 @@ import java.util.Date;
 //但是多实例的时候不会去调用销毁方法 无论你创建了多少实例 它只负责创建 不负责销毁
 //@Scope("prototype")//如果不想bean创建的实例是单实例 可以通过此注解来改变
 public class AlphaService {
+
+    private static final Logger logger= LoggerFactory.getLogger(AlphaService.class);
 
     //service 依赖dao
     @Autowired
@@ -126,4 +132,16 @@ public class AlphaService {
             }
         });
     }
+    //该注解的意思是让该方法在多线程的环境下，被异步调用
+    @Async
+    public void execute1(){
+        logger.debug("execute1");
+    }
+
+    //只要程序中有线程跑着它就一定会执行
+//    @Scheduled(initialDelay = 10000,fixedDelay = 1000)
+    public void execute(){
+        logger.debug("execute2");
+    }
+
 }

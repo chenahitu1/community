@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,15 +31,16 @@ public class HomeController implements CommunityConstant {
     private LikeService likeService;
 
     @RequestMapping(path = "/index",method = RequestMethod.GET)
-    public String getIndexPage(Model model, Page page){
+    public String getIndexPage(Model model, Page page,
+                               @RequestParam(name = "orderModel",defaultValue = "0") int orderModel){
 
         //方法调用前，SpringMVC会自动实例化Model和page,并将Page注入Model
         //所以，在thymeleaf中可以直接访问对象中的数据
         page.setRows(discussPostService.findDiscussPostRows(0));
         page.setLimit(10);
-        page.setPath("/index");
+        page.setPath("/index?orderModel="+orderModel);
 
-        List<DiscussPost> list= discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        List<DiscussPost> list= discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit(),orderModel);
         List<Map<String,Object>> discussPosts=new ArrayList<>();
         if(list !=null){
             for(DiscussPost post: list){
@@ -53,11 +55,16 @@ public class HomeController implements CommunityConstant {
             }
         }
         model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("orderModel",orderModel);
         return "/index";
     }
     @RequestMapping(path="/error",method=RequestMethod.GET)
     public String getErrorPage(){
         return "/error/500";
+    }
+    @RequestMapping(path = "/denied",method=RequestMethod.GET)
+    public String getDeniedPage(){
+        return "error/404";
     }
 
 }

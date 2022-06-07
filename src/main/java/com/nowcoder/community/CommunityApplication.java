@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 * Mapper映射器：用于编写SQL,并将SQL和实体类映射组件，采用xml,注解均可实现
 * */
 
+
 @SpringBootApplication//会自动扫描配置类所在的包以及它的子包 也就是com.nowcoder.community包下的所有包
 //该类本身就是一个配置类
 public class CommunityApplication {
@@ -32,6 +33,7 @@ public class CommunityApplication {
         //see netty4Utils.setAvailableProcessors()
         System.setProperty("es.set.netty.runtime.available.processors","false");
     }
+
     public static void main(String[] args) {
         //CommunityApplication就是一个配置文件
         SpringApplication.run(CommunityApplication.class, args);
